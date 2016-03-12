@@ -28,6 +28,11 @@ struct SnapchatAPIConstants {
         }
     }
     
+    struct Method {
+        static let getImages = Alamofire.Method.GET
+        static let uploadImage = Alamofire.Method.POST
+    }
+    
 }
 
 /// Main struct to SnapchatAPI with uploading/downloading
@@ -44,7 +49,7 @@ struct SnapchatAPI {
         
         // Using Alamofire we will upload the data on a server and return
         // response with completion block
-        Alamofire.upload(.POST,
+        Alamofire.upload(SnapchatAPIConstants.Method.uploadImage,
             SnapchatAPIConstants.URL.uploadImage,
             data: imageData).responseJSON() { response -> Void in
                 completion()
