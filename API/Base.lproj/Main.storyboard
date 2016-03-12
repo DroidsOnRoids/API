@@ -58,7 +58,7 @@
         <!--Download images-->
         <scene sceneID="wsO-jC-eVp">
             <objects>
-                <viewController title="Download images" id="itZ-bp-AHs" sceneMemberID="viewController">
+                <viewController title="Download images" id="itZ-bp-AHs" customClass="DownloadViewController" customModule="API" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UAm-tu-VLQ"/>
                         <viewControllerLayoutGuide type="bottom" id="FH9-8P-28P"/>
