@@ -37,13 +37,32 @@ struct SnapchatAPIConstants {
         static let uploadImage = Alamofire.Method.POST
     }
     
+    struct Error {
+        static func alamofireResultError(withMessage message: String) -> Result<AnyObject, NSError> {
+            let error = NSError(domain: "com.alamofire",
+                code: -100,
+                userInfo: [NSLocalizedDescriptionKey: message])
+            return Result<AnyObject, NSError>.Failure(error)
+        }
+        
+        static let alamofireEncodingError = {
+            return Error.alamofireResultError(withMessage: "There was a problem with encoding.")
+        }()
+        
+        static let alamofireUnknownError = {
+            return Error.alamofireResultError(withMessage: "There was a problem with API.")
+        }()
+    }
 }
 
 /// Main struct to SnapchatAPI with uploading/downloading
 struct SnapchatAPI {
     
+    typealias APIResult = Result<AnyObject, NSError>
+    typealias APICompletionHandler = APIResult -> Void
+    
     /// Uploads image and will be send to everyone
-    static func upload(image image: UIImage, completion: () -> ()) {
+    static func upload(image image: UIImage, completion: APICompletionHandler) {
         // We transform our image to data that we can send on server.
         // Here we have 80% compression quality, which is 0.8 by default,
         // you can change it by specifying parameter in toData() function.
@@ -55,9 +74,29 @@ struct SnapchatAPI {
         // response with completion block
         Alamofire.upload(SnapchatAPIConstants.Method.uploadImage,
             SnapchatAPIConstants.URL.uploadImage,
-            data: imageData).responseJSON() { response -> Void in
-                completion()
-        }
+            multipartFormData: { multipartData in
+                multipartData.appendBodyPart(data: imageData, name: "file", fileName: "file.jpg", mimeType: "image/jpeg")
+            }) { result in
+                switch result {
+                case .Success(let upload, _, _):
+                    upload.responseJSON { response in
+                        var result: APIResult!
+                        if let statusCode = response.response?.statusCode where 400...510 ~= statusCode {
+                            if let message = response.result.value!["error"] as? String {
+                                result = SnapchatAPIConstants.Error.alamofireResultError(withMessage: message)
+                            } else {
+                                result = SnapchatAPIConstants.Error.alamofireUnknownError
+                            }
+                        } else {
+                            result = response.result
+                        }
+                        
+                        completion(result)
+                    }
+                case .Failure(_):
+                    completion(SnapchatAPIConstants.Error.alamofireEncodingError)
+                }
+            }
     }
     
     /// Uploads image, but only to specific user

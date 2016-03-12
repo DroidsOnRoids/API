@@ -41,7 +41,7 @@ class UploadViewController: UIViewController {
 
     @IBAction func uploadCat(sender: AnyObject) {
         state = .Uploading
-        SnapchatAPI.upload(image: imageView.image!) { [unowned self] in
+        SnapchatAPI.upload(image: imageView.image!) { [unowned self] result in
            self.state = .Default
         }
     }
