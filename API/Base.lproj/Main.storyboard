@@ -8,7 +8,7 @@
         <!--Upload images-->
         <scene sceneID="xCs-Vg-N38">
             <objects>
-                <viewController title="Upload images" id="KiD-BU-d5k" sceneMemberID="viewController">
+                <viewController title="Upload images" id="KiD-BU-d5k" customClass="UploadViewController" customModule="API" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R1G-IL-c9D"/>
                         <viewControllerLayoutGuide type="bottom" id="Gu7-sF-0tS"/>
@@ -16,8 +16,40 @@
                     <view key="view" contentMode="scaleToFill" id="GDY-v7-MOh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cat" translatesAutoresizingMaskIntoConstraints="NO" id="FPi-MV-qQ6">
+                                <rect key="frame" x="172" y="171.5" width="256" height="256"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="256" id="OO9-kT-SgM"/>
+                                    <constraint firstAttribute="width" constant="256" id="pcH-4v-wE7"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puZ-SQ-pqw">
+                                <rect key="frame" x="261" y="478" width="79" height="30"/>
+                                <state key="normal" title="Upload cat!"/>
+                                <connections>
+                                    <action selector="uploadCat:" destination="KiD-BU-d5k" eventType="touchUpInside" id="NLt-96-4xw"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="DvZ-JI-4gs">
+                                <rect key="frame" x="290" y="148" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FPi-MV-qQ6" firstAttribute="top" secondItem="DvZ-JI-4gs" secondAttribute="bottom" constant="3.5" id="4aC-F1-foZ"/>
+                            <constraint firstItem="DvZ-JI-4gs" firstAttribute="centerX" secondItem="GDY-v7-MOh" secondAttribute="centerX" id="CZM-L0-79U"/>
+                            <constraint firstItem="puZ-SQ-pqw" firstAttribute="centerX" secondItem="GDY-v7-MOh" secondAttribute="centerX" id="FfX-be-moe"/>
+                            <constraint firstItem="FPi-MV-qQ6" firstAttribute="centerX" secondItem="GDY-v7-MOh" secondAttribute="centerX" id="Yrf-dp-mge"/>
+                            <constraint firstItem="FPi-MV-qQ6" firstAttribute="centerY" secondItem="GDY-v7-MOh" secondAttribute="centerY" id="nHC-IB-cdf"/>
+                            <constraint firstItem="puZ-SQ-pqw" firstAttribute="top" secondItem="FPi-MV-qQ6" secondAttribute="bottom" constant="50.5" id="o5c-wj-Rv6"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="FPi-MV-qQ6" id="awP-Z4-Bky"/>
+                        <outlet property="spinner" destination="DvZ-JI-4gs" id="K3o-1V-4Us"/>
+                        <outlet property="uploadCatButton" destination="puZ-SQ-pqw" id="xuu-2n-L1g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehR-lw-tre" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -101,4 +133,7 @@
             <point key="canvasLocation" x="220" y="-353"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cat" width="574" height="710"/>
+    </resources>
 </document>

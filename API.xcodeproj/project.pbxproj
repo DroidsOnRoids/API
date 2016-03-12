@@ -13,6 +13,7 @@
 		144814E51C93939A00701EF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 144814E41C93939A00701EF3 /* Assets.xcassets */; };
 		144814E81C93939A00701EF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 144814E61C93939A00701EF3 /* LaunchScreen.storyboard */; };
 		14A8CBC21C9395F30020A603 /* SnapchatAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A8CBC11C9395F30020A603 /* SnapchatAPI.swift */; };
+		14A8CBC41C93A30D0020A603 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A8CBC31C93A30D0020A603 /* UploadViewController.swift */; };
 		1A8E837271CCFD54288FD1C6 /* Pods_API.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 917A46E5E3BE614BB3E7C2CF /* Pods_API.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		144814E71C93939A00701EF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		144814E91C93939A00701EF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14A8CBC11C9395F30020A603 /* SnapchatAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapchatAPI.swift; sourceTree = "<group>"; };
+		14A8CBC31C93A30D0020A603 /* UploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		917A46E5E3BE614BB3E7C2CF /* Pods_API.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_API.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9959E0074DC9F922AAFF8EB6 /* Pods-API.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-API.release.xcconfig"; path = "Pods/Target Support Files/Pods-API/Pods-API.release.xcconfig"; sourceTree = "<group>"; };
 		F1ADD4EC94B767B5C9DB1BC3 /* Pods-API.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-API.debug.xcconfig"; path = "Pods/Target Support Files/Pods-API/Pods-API.debug.xcconfig"; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				144814E61C93939A00701EF3 /* LaunchScreen.storyboard */,
 				144814E91C93939A00701EF3 /* Info.plist */,
 				14A8CBC11C9395F30020A603 /* SnapchatAPI.swift */,
+				14A8CBC31C93A30D0020A603 /* UploadViewController.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14A8CBC21C9395F30020A603 /* SnapchatAPI.swift in Sources */,
+				14A8CBC41C93A30D0020A603 /* UploadViewController.swift in Sources */,
 				144814E01C93939A00701EF3 /* ViewController.swift in Sources */,
 				144814DE1C93939A00701EF3 /* AppDelegate.swift in Sources */,
 			);
