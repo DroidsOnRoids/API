@@ -82,7 +82,7 @@ struct SnapchatAPI {
                     upload.responseJSON { response in
                         var result: APIResult!
                         if let statusCode = response.response?.statusCode where 400...510 ~= statusCode {
-                            if let message = response.result.value!["error"] as? String {
+                            if let message = response.result.value?["error"] as? String {
                                 result = SnapchatAPIConstants.Error.alamofireResultError(withMessage: message)
                             } else {
                                 result = SnapchatAPIConstants.Error.alamofireUnknownError
