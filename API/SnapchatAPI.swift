@@ -13,18 +13,22 @@ import Alamofire
 struct SnapchatAPIConstants {
     
     struct URL {
-        static let base = ""
+        private static let base = "https://serene-escarpment-58247.herokuapp.com"
+        private static let imagesEndpoint = {
+            return base + "/images"
+        }()
+        
         static let uploadImage = {
-            return base + "/uploadImage"
+            return imagesEndpoint + "/upload"
         }()
         static func uploadImage(toUser userId: Int) -> String {
-            return base + "/uploadImage/\(userId)"
+            return imagesEndpoint + "/upload/\(userId)"
         }
         static let getImages = {
-           return base + "/images"
+           return imagesEndpoint + "/get"
         }()
         static func getImages(forUser userId: Int) -> String {
-            return base + "/images/\(userId)"
+           return imagesEndpoint + "/get/\(userId)"
         }
     }
     
