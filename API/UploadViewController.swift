@@ -17,7 +17,6 @@ class UploadViewController: UIViewController {
         
     }
     
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var uploadCatButton: UIButton!

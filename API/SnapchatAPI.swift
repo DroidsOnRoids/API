@@ -53,17 +53,17 @@ struct SnapchatAPI {
     
     /// Uploads image, but only to specific user
     static func upload(image image: UIImage, toUser userId: Int, completion: () -> ()) {
-        
+        // IMPLEMENT HERE
     }
     
     /// Fetch images that were sent to everyone
     static func getImages(completion: () -> ()) {
-        
+        // IMPLEMENT HERE
     }
     
     /// Fetch images that were sent to you OR to everyone
     static func getImages(forUser: Int, completion: () -> ()) {
-        
+        // IMPLEMENT HERE
     }
     
 }
