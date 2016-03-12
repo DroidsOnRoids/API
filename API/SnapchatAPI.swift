@@ -20,6 +20,12 @@ struct SnapchatAPIConstants {
         static func uploadImage(toUser userId: Int) -> String {
             return base + "/uploadImage/\(userId)"
         }
+        static let getImages = {
+           return base + "/images"
+        }()
+        static func getImages(forUser userId: Int) -> String {
+            return base + "/images/\(userId)"
+        }
     }
     
 }
