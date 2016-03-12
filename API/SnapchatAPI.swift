@@ -10,10 +10,10 @@ import Alamofire
 
 /// Struct containing all constants that are needed for 
 /// API Requests, like URLS, parameter names etc.
-internal struct SnapchatAPIConstants {
+struct SnapchatAPIConstants {
     
     struct URL {
-        static let base = "http://onet.pl"
+        static let base = ""
         static let uploadImage = {
             return base + "/uploadImage"
         }()
