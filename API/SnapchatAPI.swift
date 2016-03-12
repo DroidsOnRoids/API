@@ -12,10 +12,15 @@ import Alamofire
 /// API Requests, like URLS, parameter names etc.
 struct SnapchatAPIConstants {
     
-    static let baseURL = ""
-    static let uploadImageToAllURL = {
-        return ""
-    }()
+    struct URL {
+        static let base = "http://onet.pl"
+        static let uploadImage = {
+            return base + "/uploadImage"
+        }()
+        static func uploadImage(toUser userId: Int) -> String {
+            return base + "/uploadImage/\(userId)"
+        }
+    }
     
 }
 
@@ -25,15 +30,18 @@ struct SnapchatAPI {
     /// Uploads image and will be send to everyone
     func upload(image image: UIImage, completion: () -> ()) {
         // We transform our image to data that we can send on server.
-        // Here we have 80% compression quality, which is 0.8
-        if let imageData = UIImageJPEGRepresentation(image, 0.8) {
-            // Using Alamofire we will upload the data on a server and return
-            // response with completion block
-            Alamofire.upload(.POST,
-                SnapchatAPIConstants.uploadImageToAllURL,
-                data: imageData).responseJSON() { response -> Void in
-                    completion()
-            }
+        // Here we have 80% compression quality, which is 0.8 by default,
+        // you can change it by specifying parameter in toData() function.
+        // We use guard to be sure that our image can be represented as
+        // NSData.
+        guard let imageData = image.toData() else { return }
+        
+        // Using Alamofire we will upload the data on a server and return
+        // response with completion block
+        Alamofire.upload(.POST,
+            SnapchatAPIConstants.URL.uploadImage,
+            data: imageData).responseJSON() { response -> Void in
+                completion()
         }
     }
     
@@ -52,4 +60,10 @@ struct SnapchatAPI {
         
     }
     
+}
+
+extension UIImage {
+    func toData(withCompressQuality compressQuality: CGFloat = 0.8) -> NSData? {
+        return UIImageJPEGRepresentation(self, compressQuality)
+    }
 }
