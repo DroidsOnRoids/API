@@ -3,7 +3,7 @@ use_frameworks!
 
 target 'API' do
 
-pod 'Alamofire'
+pod 'AlamofireImage'
 
 end
 

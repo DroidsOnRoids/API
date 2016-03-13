@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import AlamofireImage
 
 /// Struct containing all constants that are needed for 
 /// API Requests, like URLS, parameter names etc.
@@ -34,6 +35,7 @@ struct SnapchatAPIConstants {
     struct Method {
         static let getImages = Alamofire.Method.GET
         static let uploadImage = Alamofire.Method.POST
+        static let downloadImage = Alamofire.Method.GET
     }
     
     struct Error {
@@ -65,6 +67,7 @@ struct SnapchatAPI {
     
     typealias APIResult = Result<AnyObject, NSError>
     typealias APICompletionHandler = APIResult -> Void
+    typealias APIImageCompletionHandler = Result<UIImage, NSError> -> Void
     typealias APIMultipartFormData = MultipartFormData -> Void
     
     /// Uploads image and will be send to everyone
@@ -144,6 +147,14 @@ struct SnapchatAPI {
     /// Fetch images that were sent to you OR to everyone
     static func getImages(forUser userId: Int, completion: APICompletionHandler) {
         getImages(parameters: [SnapchatAPIConstants.Parameters.toUserID: userId], completion: completion)
+    }
+    
+    static func downloadImage(url: String, completionHandler: APIImageCompletionHandler) {
+        Alamofire
+            .request(SnapchatAPIConstants.Method.downloadImage, url)
+            .responseImage { response in
+                completionHandler(response.result)
+            }
     }
     
 }
