@@ -23,9 +23,6 @@ struct SnapchatAPIConstants {
         static let uploadImage = {
             return imagesEndpoint + "/upload"
         }()
-        static func uploadImage(toUser userId: Int) -> String {
-            return imagesEndpoint + "/upload/\(userId)"
-        }
         static let getImages = {
            return imagesEndpoint + "/get"
         }()
@@ -55,6 +52,12 @@ struct SnapchatAPIConstants {
             return Error.alamofireResultError(withMessage: "There was a problem with API.")
         }()
     }
+    
+    struct Parameters {
+        static let imageFile = "file"
+        static let toUserID = "to_userId"
+        static let fromUserID = "from_userId"
+    }
 }
 
 /// Main struct to SnapchatAPI with uploading/downloading
@@ -78,10 +81,14 @@ struct SnapchatAPI {
         Alamofire.upload(SnapchatAPIConstants.Method.uploadImage,
             SnapchatAPIConstants.URL.uploadImage,
             multipartFormData: { multipartData in
-                multipartData.appendBodyPart(data: imageData, name: "file", fileName: "file.jpg", mimeType: "image/jpeg")
+                multipartData.appendBodyPart(data: imageData,
+                    name: SnapchatAPIConstants.Parameters.imageFile,
+                    fileName: "file.jpg",
+                    mimeType: "image/jpeg"
+                )
                 multipartData.appendBodyPart(
                     data: "\(SnapchatAPIConstants.userId)".dataUsingEncoding(NSUTF8StringEncoding)!,
-                    name: "from_userId"
+                    name: SnapchatAPIConstants.Parameters.fromUserID
                 )
                 multipartFormData?(multipartData)
             }) { result in
@@ -118,19 +125,25 @@ struct SnapchatAPI {
     /// Uploads image, but only to specific user
     static func upload(image image: UIImage, toUser userId: Int, completion: APICompletionHandler) {
         let multipartFormData: APIMultipartFormData = { multipartData in
-            multipartData.appendBodyPart(data: "\(userId)".dataUsingEncoding(NSUTF8StringEncoding)!, name: "to_userId")
+            multipartData.appendBodyPart(data: "\(userId)".dataUsingEncoding(NSUTF8StringEncoding)!,
+                name: SnapchatAPIConstants.Parameters.toUserID
+            )
         }
         upload(image: image, multipartFormData: multipartFormData, completion: completion)
     }
     
     /// Fetch images that were sent to everyone
-    static func getImages(completion: () -> ()) {
-        // IMPLEMENT HERE
+    static func getImages(parameters parameters: [String: AnyObject]? = nil, completion: APICompletionHandler) {
+        Alamofire
+            .request(SnapchatAPIConstants.Method.getImages, SnapchatAPIConstants.URL.getImages, parameters: parameters)
+            .responseJSON { response in
+                completion(response.result)
+            }
     }
     
     /// Fetch images that were sent to you OR to everyone
-    static func getImages(forUser: Int, completion: () -> ()) {
-        // IMPLEMENT HERE
+    static func getImages(forUser userId: Int, completion: APICompletionHandler) {
+        getImages(parameters: [SnapchatAPIConstants.Parameters.toUserID: userId], completion: completion)
     }
     
 }
