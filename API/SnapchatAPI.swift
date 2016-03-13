@@ -12,6 +12,8 @@ import Alamofire
 /// API Requests, like URLS, parameter names etc.
 struct SnapchatAPIConstants {
     
+    static let userId = 1;
+    
     struct URL {
         private static let base = "https://serene-escarpment-58247.herokuapp.com"
         private static let imagesEndpoint = {
@@ -60,9 +62,10 @@ struct SnapchatAPI {
     
     typealias APIResult = Result<AnyObject, NSError>
     typealias APICompletionHandler = APIResult -> Void
+    typealias APIMultipartFormData = MultipartFormData -> Void
     
     /// Uploads image and will be send to everyone
-    static func upload(image image: UIImage, completion: APICompletionHandler) {
+    static func upload(image image: UIImage, multipartFormData: APIMultipartFormData? = nil, completion: APICompletionHandler? = nil) {
         // We transform our image to data that we can send on server.
         // Here we have 80% compression quality, which is 0.8 by default,
         // you can change it by specifying parameter in toData() function.
@@ -76,9 +79,22 @@ struct SnapchatAPI {
             SnapchatAPIConstants.URL.uploadImage,
             multipartFormData: { multipartData in
                 multipartData.appendBodyPart(data: imageData, name: "file", fileName: "file.jpg", mimeType: "image/jpeg")
+                multipartData.appendBodyPart(
+                    data: "\(SnapchatAPIConstants.userId)".dataUsingEncoding(NSUTF8StringEncoding)!,
+                    name: "from_userId"
+                )
+                multipartFormData?(multipartData)
             }) { result in
                 switch result {
                 case .Success(let upload, _, _):
+                    upload.responseData { response in
+                        switch response.result {
+                        case .Success(let data):
+                            print("Success: \(String(data: data, encoding: NSUTF8StringEncoding))")
+                        case .Failure(let error):
+                            print("Error: \(error)")
+                        }
+                    }
                     upload.responseJSON { response in
                         var result: APIResult!
                         if let statusCode = response.response?.statusCode where 400...510 ~= statusCode {
@@ -91,17 +107,20 @@ struct SnapchatAPI {
                             result = response.result
                         }
                         
-                        completion(result)
+                        completion?(result)
                     }
                 case .Failure(_):
-                    completion(SnapchatAPIConstants.Error.alamofireEncodingError)
+                    completion?(SnapchatAPIConstants.Error.alamofireEncodingError)
                 }
             }
     }
     
     /// Uploads image, but only to specific user
-    static func upload(image image: UIImage, toUser userId: Int, completion: () -> ()) {
-        // IMPLEMENT HERE
+    static func upload(image image: UIImage, toUser userId: Int, completion: APICompletionHandler) {
+        let multipartFormData: APIMultipartFormData = { multipartData in
+            multipartData.appendBodyPart(data: "\(userId)".dataUsingEncoding(NSUTF8StringEncoding)!, name: "to_userId")
+        }
+        upload(image: image, multipartFormData: multipartFormData, completion: completion)
     }
     
     /// Fetch images that were sent to everyone
