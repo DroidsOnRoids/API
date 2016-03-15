@@ -135,7 +135,7 @@ struct SnapchatAPI {
         upload(image: image, multipartFormData: multipartFormData, completion: completion)
     }
     
-    /// Fetch images that were sent to everyone
+    /// Get images objects(file_name, url, date etc.) that were sent to everyone
     static func getImages(parameters parameters: [String: AnyObject]? = nil, completion: APICompletionHandler) {
         Alamofire
             .request(SnapchatAPIConstants.Method.getImages, SnapchatAPIConstants.URL.getImages, parameters: parameters)
@@ -144,16 +144,21 @@ struct SnapchatAPI {
             }
     }
     
-    /// Fetch images that were sent to you OR to everyone
+    /// Get images objects(file_name, url, date etc.) that were sent to you OR to everyone
     static func getImages(forUser userId: Int, completion: APICompletionHandler) {
-        getImages(parameters: [SnapchatAPIConstants.Parameters.toUserID: userId], completion: completion)
+        Alamofire
+            .request(SnapchatAPIConstants.Method.getImages, SnapchatAPIConstants.URL.getImages(forUser: userId))
+            .responseJSON { response in
+                completion(response.result)
+        }
     }
     
-    static func downloadImage(url: String, completionHandler: APIImageCompletionHandler) {
+    /// Fetch image from URL with completion block
+    static func downloadImage(url: String, completion: APIImageCompletionHandler) {
         Alamofire
             .request(SnapchatAPIConstants.Method.downloadImage, url)
             .responseImage { response in
-                completionHandler(response.result)
+                completion(response.result)
             }
     }
     

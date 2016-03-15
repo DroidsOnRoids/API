@@ -8,10 +8,7 @@ static func upload(image image: UIImage, completion: () -> ()) {
 }
 ```
 
-Na podstawie implementacji tej funkcji odpowiednio zaimplementować 3 następne funkcje, które w swoim ciele mają komentarz:
-```swift
-// IMPLEMENT HERE
-```
+Na podstawie implementacji tej funkcji zaimplementowane są funkcje `upload(image:toUser:completion:)`, `getImages(parameters:completion:)`, `getImages(forUser:completion)` oraz `downloadImage(url:completion)`.
 
 Funkcja `upload` może zostać wywołana tak jak w `UploadViewController`:
 ```swift
